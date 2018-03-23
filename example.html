@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Introdução ao VUE JS</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+    <div id="app">
+        {{ msg }}
+        <p v-bind:title="titulo">Teste com title</p>
+        <p v-bind:title="quemEh">Passe o mouse aqui e descubra quem você é</p>
+        <p v-if="visivel">Ó, o if tá true! :o</p>
+        <p v-for="registro in registros">{{ registro.nome }}</p>
+        <button v-if="!clicou" v-on:click="usuarioClicou">Clique em mim</button>
+        <button v-if="clicou" v-on:click="usuarioClicou">Aguarde</button>
+        <h1 v-if="clicou">Pare de aguardar e clique no botão. Tá esperando o quê?</h1>
+        <form>
+            <span>Nome</span><br />
+            <input v-model="usuario.nome" type="text">
+            <br />
+            <span>Papagaio: {{ usuario.nome }}</span>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+    var app = new Vue({
+        el: '#app',
+        data : {
+            msg: 'Bem vindo ao Vue JS!',
+            titulo : 'Teste com v-bind',
+            quemEh : 'Jack Sparrow',
+            visivel : true,
+            registros : [
+                {nome : 'registro 1'},
+                {nome : 'registro 2'},
+                {nome : 'registro 3'},
+                {nome : 'registro 4'},
+                {nome : 'registro 5'}
+            ],
+            clicou : false,
+            usuario : [
+                {nome : ""}
+            ]
+        },
+        methods : {
+            usuarioClicou : function(){
+                this.clicou = !this.clicou;
+            }
+        }
+    });
+
+    </script>
+    
+</body>
+</html>
