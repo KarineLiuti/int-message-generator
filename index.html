@@ -67,17 +67,20 @@
                 {enUS : 'en-US'},
                 {esUY : 'es-UY'}
             ],
-            chaveTraducao : "",
-            traducoes : '\n' +
-            'BEGIN \n'+
-            '    ' + this.chaveTraducao + '\n' +
-            '    COMMIT; \n' +
-            'END;'
-
+            chaveTraducao : ""
         },
         methods : {
             usuarioClicou : function(){
                 this.clicou = !this.clicou;
+            }
+        },
+        computed : {
+            traducoes : function(){
+                return '\n' +
+                'BEGIN \n'+
+                "    PR_ATUALIZA_INT_MESSAGE('" + this.chaveTraducao + "', '" + '\n' +
+                '    COMMIT; \n' +
+                'END;'
             }
         }
     });
