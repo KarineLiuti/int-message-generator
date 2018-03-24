@@ -1,47 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Introdução ao VUE JS</title>
     <script src="https://unpkg.com/vue"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
     <div id="app">
 
-        <div class="container container-fluid">
-            
-            <h1>{{ msg }}</h1>
+        <div class="container">
+
+            <h1 class="display-4">{{ msg }}</h1>
             <p v-if="visivel">Ó, o if tá true! :o</p>
-            <div class="row">
-                <form action="">
-                    <div class="col-md-6">
-                        <h3>Chave de Tradução</h3><br />
-                        <input class="col-md-12" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito">
+            <form action="">
+                <div class="row">
+                    <div class="col">
+                        <h2>
+                            <small class="text-muted">Chave de Tradução</small>
+                        </h2>
+                        <input class="form-control" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito">
                         <span>{{ chaveTraducao }}</span>
-                    </div>
-                    <div class="col-md-6">
-                        <h3>Idiomas</h3>
+                        <br />
+                        <h2>
+                            <small class="text-muted">Traduções</small>
+                        </h2>
                         <div v-for="registro in chaves">
-                            <span>{{ registro.nome }}</span><br />
-                            <input class="col-md-12" type="text">
+                            <span>{{ registro.nome }}</span>
+                            <br />
+                            <input class="form-control" type="text">
                         </div>
                     </div>
-                </form>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <h3>Script</h3>
-                    <textarea class="col-md-12" name="" id="" cols="30" rows="10">
-                        {{ traducoes }}
-                    </textarea>
+
+                    <div class="col">
+                        <h2>
+                            <small class="text-muted">Script</small>
+                            </h3>
+                            <textarea class="form-control" name="" id="" cols="30" rows="10">
+                            {{ traducoes }}
+                        </textarea>
+                    </div>
                 </div>
-            </div>
+            </form>
+            <br />
+
+
+
         </div>
 
 
@@ -50,42 +59,50 @@
 
     <script type="text/javascript">
 
-    var app = new Vue({
-        el: '#app',
-        data : {
-            msg: 'Oi! Eu sou o tradutor do INT_MESSAGE. Vamos criar um script?',
-            visivel : true,
-            chaves : [
-                {nome : 'Português'},
-                {nome : 'Inglês'},
-                {nome : 'Espanhol'}
-            ],
-            linguagem : [
-                {ptBr : 'pt-PT'},
-                {ptPt : 'pt-BR'},
-                {enGB : 'en-GB'},
-                {enUS : 'en-US'},
-                {esUY : 'es-UY'}
-            ],
-            chaveTraducao : ""
-        },
-        methods : {
-            usuarioClicou : function(){
-                this.clicou = !this.clicou;
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Vamos criar um script?',
+                visivel: true,
+                chaves: [
+                    { nome: 'Português' },
+                    { nome: 'Inglês' },
+                    { nome: 'Espanhol' }
+                ],
+                linguagem: [
+                    { ptBr: 'pt-BR' },
+                    { ptPt: 'pt-PT' },
+                    { enGB: 'en-GB' },
+                    { enUS: 'en-US' },
+                    { esUY: 'es-UY' }
+                ],
+                chaveTraducao: "",
+                inputTraducaoPortugues : "",
+                inputTraducaoIngles : "",
+                inputTraducaoEspanhol : ""
+            },
+            methods: {
+                usuarioClicou: function () {
+                    this.clicou = !this.clicou;
+                }
+            },
+            computed: {
+                traducoes: function () {
+                    return '\n' +
+                        'BEGIN \n' +
+                        "    PR_ATUALIZA_INT_MESSAGE('" 
+                        +    this.linguagem[0].ptBr + "', '"
+                        +    this.chaveTraducao + "', '"
+                        +    this.inputTraducao + "', '"
+                        +    "N');" + '\n' +
+                        '    COMMIT; \n' +
+                        'END;'
+                }
             }
-        },
-        computed : {
-            traducoes : function(){
-                return '\n' +
-                'BEGIN \n'+
-                "    PR_ATUALIZA_INT_MESSAGE('" + this.chaveTraducao + "', '" + '\n' +
-                '    COMMIT; \n' +
-                'END;'
-            }
-        }
-    });
+        });
 
     </script>
-    
+
 </body>
+
 </html>
