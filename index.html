@@ -25,23 +25,32 @@
                             <small class="text-muted">Chave de Tradução</small>
                         </h2>
                         <input class="form-control" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito">
-                        <span>{{ chaveTraducao }}</span>
+                        <!-- <span>{{ chaveTraducao }}</span> -->
                         <br />
                         <h2>
                             <small class="text-muted">Traduções</small>
                         </h2>
-                        <div v-for="registro in chaves">
-                            <span>{{ registro.nome }}</span>
-                            <br />
-                            <input class="form-control" type="text">
+                        <div class="form-group">
+                            <label for="chaveTraduzidaPortugues">{{ chaves[0].nome }}</label>
+                            <input v-model="chaveTraduzidaPortugues" id="chaveTraduzidaPortugues" v-bind:class="chaves[0].classe" class="form-control"
+                                type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="chaveTraduzidaIngles">{{ chaves[1].nome }}</label>
+                            <input v-model="chaveTraduzidaIngles" id="chaveTraduzidaIngles" v-bind:class="chaves[1].classe" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="chaveTraduzidaEspanhol">{{ chaves[2].nome }}</label>
+                            <input v-model="chaveTraduzidaEspanhol" id="chaveTraduzidaEspanhol" v-bind:class="chaves[2].classe" class="form-control"
+                                type="text">
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div v-if="chavePreenchida" class="col">
                         <h2>
                             <small class="text-muted">Script</small>
                             </h3>
-                            <textarea class="form-control" name="" id="" cols="30" rows="10">
+                            <textarea v-on:focus="copiaDados('#textScript')" class="form-control" name="" id="textScript" cols="30" rows="10">
                             {{ traducoes }}
                         </textarea>
                     </div>
@@ -63,40 +72,82 @@
             el: '#app',
             data: {
                 msg: 'Vamos criar um script?',
-                visivel: true,
+                visivel: false,
                 chaves: [
-                    { nome: 'Português' },
-                    { nome: 'Inglês' },
-                    { nome: 'Espanhol' }
+                    {
+                        nome: 'Português',
+                        classe: 'portugues'
+                    },
+                    {
+                        nome: 'Inglês',
+                        classe: 'ingles'
+                    },
+                    {
+                        nome: 'Espanhol',
+                        classe: 'espanhol'
+                    }
                 ],
                 linguagem: [
-                    { ptBr: 'pt-BR' },
-                    { ptPt: 'pt-PT' },
-                    { enGB: 'en-GB' },
-                    { enUS: 'en-US' },
-                    { esUY: 'es-UY' }
+                    'pt-BR',
+                    'pt-PT',
+                    'en-GB',
+                    'en-US',
+                    'es-UY'
                 ],
                 chaveTraducao: "",
-                inputTraducaoPortugues : "",
-                inputTraducaoIngles : "",
-                inputTraducaoEspanhol : ""
+                chaveTraduzidaPortugues: "",
+                chaveTraduzidaIngles: "",
+                chaveTraduzidaEspanhol: "",
+                contadorLetras: 0,
+                chavePreenchida: this.chaveTraducao != ""
             },
             methods: {
                 usuarioClicou: function () {
                     this.clicou = !this.clicou;
+                },
+                copiaDados: function (elementId) {
+                    var script = document.querySelector(elementId);
+                    console.log(script);
+                    script.focus();
+                    script.select();
+                    document.execCommand('copy');
+
                 }
             },
             computed: {
                 traducoes: function () {
-                    return '\n' +
-                        'BEGIN \n' +
-                        "    PR_ATUALIZA_INT_MESSAGE('" 
-                        +    this.linguagem[0].ptBr + "', '"
-                        +    this.chaveTraducao + "', '"
-                        +    this.inputTraducao + "', '"
-                        +    "N');" + '\n' +
-                        '    COMMIT; \n' +
-                        'END;'
+                    var queryInicio = '\n' +
+                        'BEGIN \n';
+
+                    var queryCorpo = '';
+                    var input = document.querySelectorAll('input');
+
+                    for (var i = 0; i < this.linguagem.length; i++) {
+                        var inputAtual = '';
+                        if (i == 0 || i == 1) {
+
+                            inputAtual = this.chaveTraduzidaPortugues;
+                        }
+                        else if (i == 2 || i == 3) {
+                            if (input[2] != null)
+                                inputAtual = this.chaveTraduzidaIngles;
+                        }
+                        else {
+                            if (input[3] != null)
+                                inputAtual = this.chaveTraduzidaEspanhol;
+                        }
+
+                        queryCorpo += "    PR_ATUALIZA_INT_MESSAGE('"
+                            + this.linguagem[i] + "', '"
+                            + this.chaveTraducao + "', '"
+                            + inputAtual + "', '"
+                            + "N'); \n"
+                    }
+
+                    var queryFim = '    COMMIT; \n' +
+                        'END;';
+
+                    return queryInicio + queryCorpo + queryFim;
                 }
             }
         });
