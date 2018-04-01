@@ -24,7 +24,7 @@
                         <h2>
                             <small class="text-muted">Chave de Tradução</small>
                         </h2>
-                        <input class="form-control" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito">
+                        <textarea class="form-control" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito"></textarea>
                         <!-- <span>{{ chaveTraducao }}</span> -->
                         <br />
                         <h2>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div v-if="chavePreenchida" class="col">
+                    <div v-if="verificaChavePreenchida() == true" class="col">
                         <h2>
                             <small class="text-muted">Script</small>
                             </h3>
@@ -98,8 +98,7 @@
                 chaveTraduzidaPortugues: "",
                 chaveTraduzidaIngles: "",
                 chaveTraduzidaEspanhol: "",
-                contadorLetras: 0,
-                chavePreenchida: this.chaveTraducao != ""
+                contadorLetras: 0
             },
             methods: {
                 usuarioClicou: function () {
@@ -112,6 +111,15 @@
                     script.select();
                     document.execCommand('copy');
 
+                },
+                verificaChavePreenchida: function () {
+                    if (this.chaveTraducao != "")
+                        return true;
+                    return false;
+                },
+                linesCounter: function (pElement) {
+                    var x = pElement.split(/\r*\n/);
+                    return x;
                 }
             },
             computed: {
