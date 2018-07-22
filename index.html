@@ -12,155 +12,193 @@
 </head>
 
 <body>
-    <div id="app">
-
-        <div class="container">
-
-            <h1 class="display-4">{{ msg }}</h1>
-            <p v-if="visivel">Ó, o if tá true! :o</p>
-            <form action="">
-                <div class="row">
-                    <div class="col">
-                        <h2>
-                            <small class="text-muted">Chave de Tradução</small>
-                        </h2>
-                        <textarea class="form-control" type="text" v-model="chaveTraducao" placeholder="p. ex.: sys.celson.jhuanzito"></textarea>
-                        <!-- <span>{{ chaveTraducao }}</span> -->
-                        <br />
-                        <h2>
-                            <small class="text-muted">Traduções</small>
-                        </h2>
-                        <div class="form-group">
-                            <label for="chaveTraduzidaPortugues">{{ chaves[0].nome }}</label>
-                            <input v-model="chaveTraduzidaPortugues" id="chaveTraduzidaPortugues" v-bind:class="chaves[0].classe" class="form-control"
-                                type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="chaveTraduzidaIngles">{{ chaves[1].nome }}</label>
-                            <input v-model="chaveTraduzidaIngles" id="chaveTraduzidaIngles" v-bind:class="chaves[1].classe" class="form-control" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="chaveTraduzidaEspanhol">{{ chaves[2].nome }}</label>
-                            <input v-model="chaveTraduzidaEspanhol" id="chaveTraduzidaEspanhol" v-bind:class="chaves[2].classe" class="form-control"
-                                type="text">
-                        </div>
-                    </div>
-
-                    <div v-if="verificaChavePreenchida() == true" class="col">
-                        <h2>
-                            <small class="text-muted">Script</small>
-                            </h3>
-                            <textarea v-on:focus="copiaDados('#textScript')" class="form-control" name="" id="textScript" cols="30" rows="10">
-                            {{ traducoes }}
-                        </textarea>
-                    </div>
-                </div>
-            </form>
+  <div id="app">
+    <div class="container">
+      <h1 class="display-4">{{ msg }}</h1>
+      <form action="">
+        <div class="row">
+          <div class="col">
+            <h2>
+              <small class="text-muted">Chave de Tradução</small>
+            </h2>
+            <textarea class="form-control" type="text" v-model="translate" placeholder="p. ex.: sys.celson.jhuanzito" @input="changeScript()"></textarea>
             <br />
-
-
-
+            <h2>
+              <small class="text-muted">Traduções</small>
+            </h2>
+            <div v-for="item in translateList" :key="item.id">
+              <div class="dropdown-divider"></div>
+              <span class="badge badge-primary">{{linesTranslationKey[item.id]}}</span>
+              <div class="form-group">
+                <label for="keyTranslatedPortuguese">{{ item.translate.portuguese.name }}</label>
+                <input v-model="item.translate.portuguese.value" id="keyTranslatedPortuguese" v-bind:class="item.translate.portuguese.name" class="form-control" @input="changeScript()"
+                  type="text">
+              </div>
+              <div class="form-group">
+                <label for="keyTranslatedEnglish">{{ item.translate.english.name }}</label>
+                <input v-model="item.translate.english.value" id="keyTranslatedEnglish" v-bind:class="item.translate.english.name" class="form-control" @input="changeScript()"
+                  type="text">
+              </div>
+              <div class="form-group">
+                <label for="keyTranslatedSpanish">{{ item.translate.spanish.name }}</label>
+                <input v-model="item.translate.spanish.value" id="keyTranslatedSpanish" v-bind:class="item.translate.spanish.name" class="form-control" @input="changeScript()"
+                  type="text">
+              </div>
+            </div>
+          </div>
+          <div v-if="verificaChavePreenchida() == true" class="col">
+            <h2>
+              <small class="text-muted">Script</small>
+              </h3>
+              <textarea v-on:focus="copyData('#textScript')" class="form-control" name="" id="textScript" cols="30" rows="10">
+                            {{ queryString }}
+                        </textarea>
+          </div>
         </div>
-
-
+      </form>
+      <br />
     </div>
+  </div>
 
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'Vamos criar um script?',
+        visivel: false,
+        chaves: [
+          {
+            nome: 'Português',
+            classe: 'portugues'
+          },
+          {
+            nome: 'Inglês',
+            classe: 'ingles'
+          },
+          {
+            nome: 'Espanhol',
+            classe: 'espanhol'
+          }
+        ],
+        language: {
+          brazilian: {id: 'pt-BR', checked: true},
+          portuguese: {id: 'pt-PT', checked: true},
+          american: {id: 'en-GB', checked: true},
+          britsh: {id: 'en-US', checked: true},
+          spanish: {id: 'es-UY', checked: true}
+        },
+        translationKey: "",
+        keyTranslatedPortuguese: "",
+        keyTranslatedEnglish: "",
+        keyTranslatedSpanish: "",
+        contadorLetras: 0,
+        translateList: [],
+        karine: "",
+        scriptTranslationKeys: ""
+      },
+      methods: {
+        copyData: function (elementId) {
+          var script = document.querySelector(elementId);
+          console.log(script);
+          script.focus();
+          script.select();
+          document.execCommand('copy');
 
-    <script type="text/javascript">
-
-        var app = new Vue({
-            el: '#app',
-            data: {
-                msg: 'Vamos criar um script?',
-                visivel: false,
-                chaves: [
-                    {
-                        nome: 'Português',
-                        classe: 'portugues'
-                    },
-                    {
-                        nome: 'Inglês',
-                        classe: 'ingles'
-                    },
-                    {
-                        nome: 'Espanhol',
-                        classe: 'espanhol'
-                    }
-                ],
-                linguagem: [
-                    'pt-BR',
-                    'pt-PT',
-                    'en-GB',
-                    'en-US',
-                    'es-UY'
-                ],
-                chaveTraducao: "",
-                chaveTraduzidaPortugues: "",
-                chaveTraduzidaIngles: "",
-                chaveTraduzidaEspanhol: "",
-                contadorLetras: 0
-            },
-            methods: {
-                usuarioClicou: function () {
-                    this.clicou = !this.clicou;
-                },
-                copiaDados: function (elementId) {
-                    var script = document.querySelector(elementId);
-                    console.log(script);
-                    script.focus();
-                    script.select();
-                    document.execCommand('copy');
-
-                },
-                verificaChavePreenchida: function () {
-                    if (this.chaveTraducao != "")
-                        return true;
-                    return false;
-                },
-                linesCounter: function (pElement) {
-                    var x = pElement.split(/\r*\n/);
-                    return x;
-                }
-            },
-            computed: {
-                traducoes: function () {
-                    var queryInicio = '\n' +
-                        'BEGIN \n';
-
-                    var queryCorpo = '';
-                    var input = document.querySelectorAll('input');
-
-                    for (var i = 0; i < this.linguagem.length; i++) {
-                        var inputAtual = '';
-                        if (i == 0 || i == 1) {
-
-                            inputAtual = this.chaveTraduzidaPortugues;
-                        }
-                        else if (i == 2 || i == 3) {
-                            if (input[2] != null)
-                                inputAtual = this.chaveTraduzidaIngles;
-                        }
-                        else {
-                            if (input[3] != null)
-                                inputAtual = this.chaveTraduzidaEspanhol;
-                        }
-
-                        queryCorpo += "    PR_ATUALIZA_INT_MESSAGE('"
-                            + this.linguagem[i] + "', '"
-                            + this.chaveTraducao + "', '"
-                            + inputAtual + "', '"
-                            + "N'); \n"
-                    }
-
-                    var queryFim = '    COMMIT; \n' +
-                        'END;';
-
-                    return queryInicio + queryCorpo + queryFim;
-                }
+        },
+        verificaChavePreenchida: function () {
+          if (this.translationKey != "")
+            return true;
+          return false;
+        },
+        newTranslateList: function() {
+          var newObject = {
+            id: this.linesCounter-1,
+            translate: {
+              portuguese: {name: 'Português', value: ''}, 
+              english:  {name: 'English', value: ''}, 
+              spanish:  {name: 'Español', value: ''}
             }
-        });
+          }          
+          this.translateList.push(newObject);
+        },
+        changeScript: function() {
+          var queryInicio = '\nBEGIN\n';
 
-    </script>
+          var queryCorpo = '';
+          var linesCounter = this.linesCounter;
+
+          var linhas = this.translationKey.split(/\n/);
+
+          var procedureName = "    PR_ATUALIZA_INT_MESSAGE('";
+          var beforeTranslate = "', '";
+          var afterTranslate = "', 'N');";
+          for (var linha in linhas) {
+            
+            if (!linhas[linha]) return;
+            
+            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.brazilian.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.portuguese.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.american.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.britsh.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.spanish.value) { queryCorpo += procedureName + this.language.spanish.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.spanish.value + afterTranslate +'\n'; }
+          
+          }
+          var queryFim = 'COMMIT; \n' +
+            'END;';
+
+            this.scriptTranslationKeys = queryInicio + queryCorpo + queryFim;
+        }
+        
+      },
+      computed: {
+        linesCounter: {
+          get () {
+            return this.translationKey.split(/\r\n|\r|\n/).length;
+          }
+        },
+        linesTranslationKey: {
+          get () {
+            return this.translationKey.split(/\r\n|\r|\n/);
+          }
+        },
+        translate: {
+          get () {
+            return this.translationKey;
+          },
+          set (value) {
+            this.translationKey = value;
+          }
+        },
+        queryString: {
+          get () {
+            return this.scriptTranslationKeys;
+          }
+        }
+      },
+      mounted () {
+        this.newTranslateList();
+      },
+      watch: {
+        linesCounter: function (newLinesCounter, oldLinesCounter) {
+          console.log('new: ', newLinesCounter, ' old: ', oldLinesCounter);
+          
+          if (newLinesCounter > oldLinesCounter) {
+            this.newTranslateList();
+          }
+          else {
+            this.translateList.pop();
+          }
+        },
+        translateList: {
+          handler: function(newValue) {
+                // console.log('test', newValue);
+            },
+            deep: true
+        }
+      }
+    });
+
+  </script>
 
 </body>
 
