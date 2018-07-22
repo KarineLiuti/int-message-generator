@@ -4,7 +4,7 @@ Gerador automático de script de chaves de tradução.
 
 ## Milestones:
 
-Funcionalidade Básica - done! \o/<br />
-Ajustes de interface<br />
-Utilização em Massa<br />
+Basic function - done! \o/<br />
+Interface adjusts - to do...<br />
+Batch translate - done! \o/<br />
 Utilizar a API do Google Translate<br />
