@@ -1,5 +1,5 @@
 # Int Message Generator
-Gerador automático de script de chaves de tradução.
+AutomaGic generator for translation keys.
 
 
 ## Milestones:
