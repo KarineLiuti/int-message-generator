@@ -136,11 +136,11 @@
             
             if (!linhas[linha]) return;
             
-            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.brazilian.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
-            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.portuguese.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
-            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.american.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
-            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.britsh.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
-            if (this.translateList[linha].translate.spanish.value) { queryCorpo += procedureName + this.language.spanish.id + "', " + linhas[linha] + beforeTranslate + this.translateList[linha].translate.spanish.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.brazilian.id + "', '" + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.portuguese.value) { queryCorpo += procedureName + this.language.portuguese.id + "', '" + linhas[linha] + beforeTranslate + this.translateList[linha].translate.portuguese.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.american.id + "', '" + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.english.value) { queryCorpo += procedureName + this.language.britsh.id + "', '" + linhas[linha] + beforeTranslate + this.translateList[linha].translate.english.value + afterTranslate +'\n'; }
+            if (this.translateList[linha].translate.spanish.value) { queryCorpo += procedureName + this.language.spanish.id + "', '" + linhas[linha] + beforeTranslate + this.translateList[linha].translate.spanish.value + afterTranslate +'\n'; }
           
           }
           var queryFim = 'COMMIT; \n' +
