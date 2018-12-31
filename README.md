@@ -1,10 +1,11 @@
 # Int Message Generator
 AutomaGic script generator for translation keys.
+This 
 
 
 ## Milestones:
 
 Basic function - done! \o/<br />
-Interface adjusts - to do...<br />
+Interface adjusts - done! <br />
 Batch translate - done! \o/<br />
-Utilizar a API do Google Translate<br />
+Google Translate API - In progress...<br />
