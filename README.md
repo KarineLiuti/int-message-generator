@@ -1,6 +1,6 @@
 # Int Message Generator
 AutomaGic script generator for translation keys.
-This 
+This was made to developers of INFLOR, to take less time to do translation keys.
 
 
 ## Milestones:
