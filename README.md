@@ -1,6 +1,6 @@
 # Int Message Generator
 AutomaGic script generator for translation keys.
-This was made to developers of INFLOR, to take less time to do translation keys.
+This was made to developers of INFLOR, to take less time to do translation keys with PL SQL to insert in Oracle Databases.
 
 
 ## Milestones:
